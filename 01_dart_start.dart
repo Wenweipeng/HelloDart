@@ -1,3 +1,6 @@
+//导入(https://dart.cn/samples#imports)
+import 'dart:math';
+
 //变量（https://dart.cn/samples#variables）
 void variables() {
   var name = 'Voyager I';
@@ -11,6 +14,29 @@ void variables() {
   print(
     'name is $name, year is $year, antennaDiameter is $antennaDiameter, flybyObjects is $flybyObjects, image is $image');
 }
+
+//控制流语句(https://dart.cn/samples#control-flow-statements)
+void test01(int year){
+  if(year>=2001){
+    print('21st century');
+  }else if(year>=1901){
+    print('20th century');
+  }
+}
+
+void test02(){
+  for(int month=1;month<=12;month++){
+    print(month);
+  }
+}
+/*
+for (final object in flybyObjects) {
+  print(object);
+}
+while (year < 2016) {
+  year += 1;
+}
+*/
 
 //函数(https://dart.cn/samples#functions)
 int fibonacci(int n){
@@ -66,15 +92,76 @@ mixin Piloted{
     print('Number of astronauts: $astronauts');
   }
 }
+/*
+class PilotedCraft extends Spacecraft with Piloted {
+  // ···
+}
+*/
 
 //接口和抽象类(https://dart.cn/samples#interfaces-and-abstract-classes)
-class MockSpaceship implements Spacecraft{
-  
+abstract class Describable{
+  void describe();
+
+  void describeWithEmphasis(){
+    print('===========');
+    describe();
+    print('===========');
+  }
 }
+
+//异步(https://dart.cn/samples#async)
+const oneSecond=Duration(seconds:1);
+Future<void> printWithDelay(String message) async{
+  await Future.delayed(oneSecond);
+  print(message);
+}
+
+/*
+Future<void> createDescriptions(Iterable<String> objects) async {
+  for (final object in objects) {
+    try {
+      var file = File('$object.txt');
+      if (await file.exists()) {
+        var modified = await file.lastModified();
+        print(
+            'File for $object already exists. It was modified on $modified.');
+        continue;
+      }
+      await file.create();
+      await file.writeAsString('Start describing $object in this file.');
+    } on IOException catch (e) {
+      print('Cannot create description for $object: $e');
+    }
+  }
+}
+*/
+
+//异常(https://dart.cn/samples#exceptions)
+/*
+if(astronauts==0){
+  throw StateError('No astronauts.');
+}
+
+try {
+  for (final object in flybyObjects) {
+    var description = await File('$object.txt').readAsString();
+    print(description);
+  }
+} on IOException catch (e) {
+  print('Could not describe object: $e');
+} finally {
+  flybyObjects.clear();
+}
+*/
 
 void main(List<String> args) {
   // 变量
   variables();
+
+  //控制流语句
+  int year=2022;
+  test01(year);
+  test02();
 
   //函数
   var result=fibonacci(20);
@@ -86,5 +173,7 @@ void main(List<String> args) {
   var voyager3 = Spacecraft.unlaunched('Voyager III');
   voyager3.describe();
 
-
+  //扩展类
+  var exten=Orbiter('xxxxx', DateTime(2077, 9, 5), 22);
+  exten.describe();
 }
